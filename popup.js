@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btn2").onclick = function() { btn2OnClick() };
     try {
         chrome.storage.local.get(['keyword'], function(result) {
-            console.log(result.keyword)
+            //console.log(result.keyword)
             if (result.keyword == null || result.keyword == undefined) {
                 keyword = []
             } else {
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     keyword = []
                 }
             }
-            console.log(keyword)
+            //console.log(keyword)
             keywordList()
         });
     } catch (e) {
@@ -52,19 +52,21 @@ function btn1OnClick() {
         if (!keyword.includes(text)) {
             keyword.push(text)
             alert('新增成功');
+
+            var value = { "keyword": JSON.stringify(keyword) }
+            try {
+                chrome.storage.local.set(value, function() {;
+                });
+            } catch (e) {
+                console.log(e)
+                keyword = []
+            }
             updateKeywordList();
 
         } else {
             alert('新增失敗:已有關鍵字');
         }
-        var value = { "keyword": JSON.stringify(keyword) }
-        try {
-            chrome.storage.local.set(value, function() {;
-            });
-        } catch (e) {
-            console.log(e)
-            keyword = []
-        }
+
 
     } else {
         alert('新增失敗:關鍵字不可為空');
@@ -86,7 +88,7 @@ function btn2OnClick() {
 
     try {
         chrome.storage.local.get(['keyword'], function(result) {
-            console.log(result.keyword)
+            //console.log(result.keyword)
             if (result.keyword == null || result.keyword == undefined) {
                 keyword = []
             } else {
@@ -97,7 +99,7 @@ function btn2OnClick() {
                 }
 
             }
-            console.log(keyword)
+            //console.log(keyword)
             updateKeywordList();
 
 
@@ -119,7 +121,7 @@ function keywordButtonListener() {
 
 
     for (var i = 0; i < classname.length; i++) {
-        console.log(classname[i])
+        //console.log(classname[i])
 
         classname[i].addEventListener('click', function() {
 
